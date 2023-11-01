@@ -28,6 +28,17 @@ import { useRef } from 'react'
 import { AuthenticityTokenProvider } from 'remix-utils/csrf/react'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { z } from 'zod'
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '#app/components/ui/dialog.tsx'
+import categories from '#docs/categories.ts'
 import { Confetti } from './components/confetti.tsx'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
 import { ErrorList } from './components/forms.tsx'
@@ -59,6 +70,7 @@ import { type Theme, setTheme, getTheme } from './utils/theme.server.ts'
 import { makeTimings, time } from './utils/timing.server.ts'
 import { getToast } from './utils/toast.server.ts'
 import { useOptionalUser, useUser } from './utils/user.ts'
+import Menu from './components/menu.tsx'
 
 export const links: LinksFunction = () => {
 	return [
@@ -242,41 +254,22 @@ function App() {
 
 	return (
 		<Document nonce={nonce} theme={theme} env={data.ENV}>
-			<div className="flex h-screen flex-col justify-between">
-				<header className="container py-6">
-					<nav>
-						<div className="flex flex-wrap items-center justify-between gap-4 sm:flex-nowrap md:gap-8">
-							<Link to="/">
-								<div className="font-light">epic</div>
-								<div className="font-bold">notes</div>
-							</Link>
-							<div className="ml-auto hidden max-w-sm flex-1 sm:block">
-								{searchBar}
-							</div>
-							<div className="flex items-center gap-10">
-								{user ? (
-									<UserDropdown />
-								) : (
-									<Button asChild variant="default" size="sm">
-										<Link to="/login">Log In</Link>
-									</Button>
-								)}
-							</div>
-							<div className="block w-full sm:hidden">{searchBar}</div>
+			<div className="container px-1 md:px-3">
+				<div className="flex h-screen flex-col justify-between">
+					<div className="relative flex">
+						<Menu />
+						<div className="h-full flex-1">
+							<Outlet />
 						</div>
-					</nav>
-				</header>
-
-				<div className="flex-1">
-					<Outlet />
-				</div>
-
-				<div className="container flex justify-between pb-5">
-					<Link to="/">
-						<div className="font-light">epic</div>
-						<div className="font-bold">notes</div>
-					</Link>
-					<ThemeSwitch userPreference={data.requestInfo.userPrefs.theme} />
+					</div>
+					{/* FOOTER */}
+					<div className="container flex justify-between pb-5">
+						<Link to="/">
+							<div className="font-light">epic</div>
+							<div className="font-bold">notes</div>
+						</Link>
+						<ThemeSwitch userPreference={data.requestInfo.userPrefs.theme} />
+					</div>
 				</div>
 			</div>
 			<Confetti id={data.confettiId} />

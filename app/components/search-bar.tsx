@@ -1,10 +1,8 @@
 import { Form, useSearchParams, useSubmit } from '@remix-run/react'
 import { useId } from 'react'
 import { useDebounce, useIsPending } from '#app/utils/misc.tsx'
-import { Icon } from './ui/icon.tsx'
 import { Input } from './ui/input.tsx'
 import { Label } from './ui/label.tsx'
-import { StatusButton } from './ui/status-button.tsx'
 
 export function SearchBar({
 	status,
@@ -47,17 +45,6 @@ export function SearchBar({
 					className="w-full"
 					autoFocus={autoFocus}
 				/>
-			</div>
-			<div>
-				<StatusButton
-					type="submit"
-					status={isSubmitting ? 'pending' : status}
-					className="flex w-full items-center justify-center"
-					size="sm"
-				>
-					<Icon name="magnifying-glass" size="sm" />
-					<span className="sr-only">Search</span>
-				</StatusButton>
 			</div>
 		</Form>
 	)

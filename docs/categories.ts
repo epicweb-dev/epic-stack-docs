@@ -1,0 +1,40 @@
+export default {
+	'Backend Development': [
+		'apis.md',
+		'database.md',
+		'deployment.md',
+		'server-timing.md',
+		'email.md',
+		'redirects.md',
+	],
+	'Frontend Development': [
+		'client-hints.md',
+		'fonts.md',
+		'icons.md',
+		'getting-started.md',
+		'seo.md',
+		'toast.md',
+	],
+	'Security & Authentication': [
+		'authentication.md',
+		'secrets.md',
+		'security.md',
+		'permissions.md',
+	],
+	'Infrastructure & Performance': [
+		'caching.md',
+		'memory.md',
+		'monitoring.md',
+		'routing.md',
+		'timezone.md',
+	],
+	'Best Practices': [
+		'examples.md',
+		'features.md',
+		'guiding-principles.md',
+		'managing-updates.md',
+		'testing.md',
+		'troubleshooting.md',
+	],
+	Community: ['community.md'],
+}
