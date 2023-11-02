@@ -32,6 +32,7 @@ import { EpicProgress } from './components/progress-bar.tsx'
 import { EpicToaster } from './components/toaster.tsx'
 import { Icon, href as iconsHref } from './components/ui/icon.tsx'
 import fontStyleSheetUrl from './styles/font.css'
+import proseStyles from './styles/prose.css'
 import tailwindStyleSheetUrl from './styles/tailwind.css'
 import { getUserId, logout } from './utils/auth.server.ts'
 import { ClientHintCheck, getHints, useHints } from './utils/client-hints.tsx'
@@ -71,6 +72,7 @@ export const links: LinksFunction = () => {
 		{ rel: 'icon', type: 'image/svg+xml', href: '/favicons/favicon.svg' },
 		{ rel: 'stylesheet', href: fontStyleSheetUrl },
 		{ rel: 'stylesheet', href: tailwindStyleSheetUrl },
+		{ rel: 'stylesheet', href: proseStyles },
 		cssBundleHref ? { rel: 'stylesheet', href: cssBundleHref } : null,
 	].filter(Boolean)
 }

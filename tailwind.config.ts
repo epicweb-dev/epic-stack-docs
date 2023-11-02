@@ -1,3 +1,4 @@
+import typography from '@tailwindcss/typography'
 import { type Config } from 'tailwindcss'
 import defaultTheme from 'tailwindcss/defaultTheme.js'
 import animatePlugin from 'tailwindcss-animate'
@@ -22,5 +23,5 @@ export default {
 			},
 		},
 	},
-	plugins: [animatePlugin, radixPlugin],
+	plugins: [animatePlugin, radixPlugin, typography],
 } satisfies Config
