@@ -231,7 +231,7 @@ function App() {
 				<div className="flex h-screen flex-col justify-between">
 					<div className="relative flex">
 						<Menu />
-						<div className="h-full flex-1">
+						<div className="mt-20 h-full flex-1 md:mt-0">
 							<Outlet />
 						</div>
 					</div>
