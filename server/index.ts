@@ -132,6 +132,7 @@ app.use(
 				'img-src': ["'self'", 'data:'],
 				'script-src': [
 					"'strict-dynamic'",
+					"'unsafe-eval'",
 					"'self'",
 					// @ts-expect-error
 					(_, res) => `'nonce-${res.locals.cspNonce}'`,

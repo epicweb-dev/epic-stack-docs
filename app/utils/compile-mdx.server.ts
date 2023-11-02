@@ -2,7 +2,6 @@ import { remarkCodeBlocksShiki } from '@kentcdodds/md-temp'
 import remarkEmbedder, { type TransformerInfo } from '@remark-embedder/core'
 import oembedTransformer from '@remark-embedder/transformer-oembed'
 import type * as H from 'hast'
-import type * as M from 'mdast'
 import type * as MDX from 'mdast-util-mdx-jsx'
 import { bundleMDX } from 'mdx-bundler'
 // eslint-disable-next-line import/no-duplicates
@@ -153,64 +152,6 @@ function optimizeCloudinaryImages() {
 	}
 }
 
-// const twitterTransformer = {
-// 	shouldTransform: twitter.isTwitterUrl,
-// 	getHTML: twitter.getTweetEmbedHTML,
-// }
-
-const eggheadTransformer = {
-	shouldTransform: (url: string) => {
-		const { host, pathname } = new URL(url)
-
-		return (
-			host === 'egghead.io' &&
-			pathname.includes('/lessons/') &&
-			!pathname.includes('/embed')
-		)
-	},
-	getHTML: (url: string) => {
-		const { host, pathname, searchParams } = new URL(url)
-
-		// Don't preload videos
-		if (!searchParams.has('preload')) {
-			searchParams.set('preload', 'false')
-		}
-
-		// Kent's affiliate link
-		if (!searchParams.has('af')) {
-			searchParams.set('af', '5236ad')
-		}
-
-		const iframeSrc = `https://${host}${pathname}/embed?${searchParams.toString()}`
-
-		return makeEmbed(
-			`<iframe src="${iframeSrc}" allowfullscreen></iframe>`,
-			'egghead',
-		)
-	},
-}
-
-function autoAffiliates() {
-	return async function affiliateTransformer(tree: M.Root) {
-		visit(tree, 'link', function visitor(linkNode: M.Link) {
-			if (linkNode.url.includes('amazon.com')) {
-				const amazonUrl = new URL(linkNode.url)
-				if (!amazonUrl.searchParams.has('tag')) {
-					amazonUrl.searchParams.set('tag', 'kentcdodds-20')
-					linkNode.url = amazonUrl.toString()
-				}
-			}
-			if (linkNode.url.includes('egghead.io')) {
-				const eggheadUrl = new URL(linkNode.url)
-				if (!eggheadUrl.searchParams.has('af')) {
-					eggheadUrl.searchParams.set('af', '5236ad')
-					linkNode.url = eggheadUrl.toString()
-				}
-			}
-		})
-	}
-}
-
 function removePreContainerDivs() {
 	return async function preContainerDivsTransformer(tree: H.Root) {
 		visit(
@@ -232,14 +173,9 @@ const remarkPlugins: U.PluggableList = [
 		{
 			handleError: handleEmbedderError,
 			handleHTML: handleEmbedderHtml,
-			transformers: [
-				// twitterTransformer,
-				eggheadTransformer,
-				oembedTransformer.default,
-			],
+			transformers: [oembedTransformer.default],
 		},
 	],
-	autoAffiliates,
 ]
 
 const rehypePlugins: U.PluggableList = [
@@ -255,6 +191,7 @@ async function compileMdx<FrontmatterType extends Record<string, unknown>>(
 ) {
 	const indexRegex = new RegExp(`${slug}\\/index.mdx?$`)
 	const indexFile = githubFiles.find(({ path }) => indexRegex.test(path))
+
 	if (!indexFile) return null
 
 	const rootDir = indexFile.path.replace(/index.mdx?$/, '')

@@ -1,9 +1,70 @@
-import { useFormAction, useNavigation } from '@remix-run/react'
+import {
+	Link,
+	type LinkProps,
+	useFormAction,
+	useNavigation,
+} from '@remix-run/react'
 import { clsx, type ClassValue } from 'clsx'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useSpinDelay } from 'spin-delay'
 import { extendTailwindMerge } from 'tailwind-merge'
 import { extendedTheme } from './extended-theme.ts'
+
+type AnchorProps = React.DetailedHTMLProps<
+	React.AnchorHTMLAttributes<HTMLAnchorElement>,
+	HTMLAnchorElement
+>
+
+export const AnchorOrLink = React.forwardRef<
+	HTMLAnchorElement,
+	AnchorProps & {
+		reload?: boolean
+		to?: LinkProps['to']
+		prefetch?: LinkProps['prefetch']
+	}
+>(function AnchorOrLink(props, ref) {
+	const {
+		to,
+		href,
+		download,
+		reload = false,
+		prefetch,
+		children,
+		...rest
+	} = props
+	let toUrl = ''
+	let shouldUserRegularAnchor = reload || download
+
+	if (!shouldUserRegularAnchor && typeof href === 'string') {
+		shouldUserRegularAnchor = href.includes(':') || href.startsWith('#')
+	}
+
+	if (!shouldUserRegularAnchor && typeof to === 'string') {
+		toUrl = to
+		shouldUserRegularAnchor = to.includes(':')
+	}
+
+	if (!shouldUserRegularAnchor && typeof to === 'object') {
+		toUrl = `${to.pathname ?? ''}${to.hash ? `#${to.hash}` : ''}${
+			to.search ? `?${to.search}` : ''
+		}`
+		shouldUserRegularAnchor = to.pathname?.includes(':')
+	}
+
+	if (shouldUserRegularAnchor) {
+		return (
+			<a {...rest} download={download} href={href ?? toUrl} ref={ref}>
+				{children}
+			</a>
+		)
+	} else {
+		return (
+			<Link prefetch={prefetch} to={to ?? href ?? ''} {...rest} ref={ref}>
+				{children}
+			</Link>
+		)
+	}
+})
 
 export function getUserImgSrc(imageId?: string | null) {
 	return imageId ? `/resources/user-images/${imageId}` : '/img/user.png'

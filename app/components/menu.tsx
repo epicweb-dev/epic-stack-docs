@@ -1,6 +1,6 @@
 import { Link } from '@remix-run/react'
 import { useTheme } from '#app/root.tsx'
-import categories from '#docs/categories.ts'
+import categories from '#content/docs/categories.ts'
 import { SearchBar } from './search-bar.tsx'
 import { Dialog, DialogTrigger, DialogContent } from './ui/dialog.tsx'
 import { Icon } from './ui/icon.tsx'
@@ -11,11 +11,13 @@ export default function Menu() {
 		<>
 			<div className="hidden md:flex">
 				<div className="h-50rem flex h-full flex-col overflow-scroll border-r p-2">
-					{theme === 'dark' ? (
-						<Icon name="epic-stack" className="h-56 w-56" />
-					) : (
-						<Icon name="epic-stack-light" className="h-56 w-56" />
-					)}
+					<Link to="/">
+						{theme === 'dark' ? (
+							<Icon name="epic-stack" className="h-56 w-56" />
+						) : (
+							<Icon name="epic-stack-light" className="h-56 w-56" />
+						)}
+					</Link>
 					<div className="flex flex-col gap-2 py-2">
 						<Link
 							to="/topic/getting-started"
@@ -41,9 +43,11 @@ export default function Menu() {
 												{subcategories.map(subcategory => {
 													return (
 														<div className="ml-2" key={subcategory}>
-															<h5 className="text-lg font-thin">
-																{subcategory.split('.')[0]}
-															</h5>
+															<Link to={`/topic/${subcategory.split('.')[0]}`}>
+																<h5 className="text-lg font-thin">
+																	{subcategory.split('.')[0]}
+																</h5>
+															</Link>
 														</div>
 													)
 												})}
