@@ -112,7 +112,7 @@ export const meta: MetaFunction = () => {
 	return [{ title: 'Sign Up | Epic Notes' }]
 }
 
-export default function SignupRoute() {
+export function SignupRoute() {
 	const actionData = useActionData<typeof action>()
 	const isPending = useIsPending()
 	const [searchParams] = useSearchParams()

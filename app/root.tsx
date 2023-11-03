@@ -24,6 +24,7 @@ import { withSentry } from '@sentry/remix'
 import { AuthenticityTokenProvider } from 'remix-utils/csrf/react'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { z } from 'zod'
+import { AdminDropdown } from './components/admin-dropdown.tsx'
 import { Confetti } from './components/confetti.tsx'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
 import { ErrorList } from './components/forms.tsx'
@@ -227,7 +228,8 @@ function App() {
 
 	return (
 		<Document nonce={nonce} theme={theme} env={data.ENV}>
-			<div className="w-full px-1 md:container md:px-3">
+			<div className="relative w-full px-1 md:container md:px-3">
+				{data.user && <AdminDropdown user={data.user} />}
 				<div className="flex h-screen flex-col justify-between">
 					<div className="relative flex">
 						<Menu />

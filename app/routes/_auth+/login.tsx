@@ -340,18 +340,6 @@ export default function LoginPage() {
 								</li>
 							))}
 						</ul>
-						<div className="flex items-center justify-center gap-2 pt-6">
-							<span className="text-muted-foreground">New here?</span>
-							<Link
-								to={
-									redirectTo
-										? `/signup?${encodeURIComponent(redirectTo)}`
-										: '/signup'
-								}
-							>
-								Create an account
-							</Link>
-						</div>
 					</div>
 				</div>
 			</div>
