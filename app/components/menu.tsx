@@ -24,17 +24,18 @@ const CategoryLinks = ({
 				return (
 					<div key={category}>
 						<h4 className="text-1xl">{category.split('.')[0]}</h4>
-						<div className="flex flex-col gap-0.5">
+						<div className="flex flex-col">
 							{subcategories.map(subcategory => {
 								return (
-									<div className="ml-2" key={subcategory}>
+									<div
+										className=" border-l border-l-gray-300 pl-2 font-thin hover:border-l-gray-500 hover:font-semibold"
+										key={subcategory}
+									>
 										<Link
 											to={`/topic/${subcategory.split('.')[0]}`}
 											onClick={onClick}
 										>
-											<h5 className="text-lg font-thin">
-												{subcategory.split('.')[0]}
-											</h5>
+											<h5 className="text-lg">{subcategory.split('.')[0]}</h5>
 										</Link>
 									</div>
 								)
@@ -55,7 +56,7 @@ export default function Menu() {
 	}
 	return (
 		<nav className="relative">
-			<div className="sticky top-0 hidden h-[100vh] w-48 md:flex lg:w-64">
+			<div className="sticky bottom-0 top-0 hidden h-[100vh] w-48 md:flex lg:w-64">
 				<div className="flex h-full flex-col items-center border-r pr-2 pt-2">
 					<Link to="/">
 						<Icon

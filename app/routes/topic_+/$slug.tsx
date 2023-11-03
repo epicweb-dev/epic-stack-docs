@@ -1,5 +1,6 @@
 import { json, type LoaderFunctionArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
+import { Icon } from '#app/components/ui/icon.tsx'
 import { getMdxPage, useMdxComponent } from '#app/utils/mdx.tsx'
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
@@ -19,11 +20,11 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
 export default function TopicPage() {
 	const data = useLoaderData<typeof loader>()
-	const { code, frontmatter } = data
+	const { code, frontmatter, slug } = data
 	const Component = useMdxComponent(code)
 
 	return (
-		<div className="container pt-3">
+		<div className="container relative pt-3">
 			<h2 className="pb-5 text-6xl font-bold">{frontmatter.title}</h2>
 			<h3 className="pb-5 text-xl font-thin">{frontmatter.description}</h3>
 			<div className="max-w-4xl">
@@ -31,6 +32,16 @@ export default function TopicPage() {
 					<Component />
 				</div>
 			</div>
+			<a
+				target="_blank"
+				className="text-gray-400"
+				href={`https://github.com/epicweb-dev/epic-stack-docs/tree/main/content/docs/${slug}`}
+				rel="noreferrer"
+			>
+				<p className="absolute bottom-0 right-10">
+					Edit this page on <Icon name="github-logo" />
+				</p>
+			</a>
 		</div>
 	)
 }

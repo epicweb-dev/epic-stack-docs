@@ -233,17 +233,22 @@ function App() {
 						<Menu />
 						<div className="h-full flex-1 pt-20 md:mt-0">
 							<Outlet />
+							{/* FOOTER */}
+							<div className="container mt-5 flex justify-between py-5">
+								<Link to="/">
+									<Icon
+										name={theme === 'dark' ? 'epic-logo' : 'epic-logo-light'}
+										className="h-10 w-10"
+									/>
+								</Link>
+								<span className="text-gray-400">
+									Copyright © 2023 Kent C Dodds
+								</span>
+								<ThemeSwitch
+									userPreference={data.requestInfo.userPrefs.theme}
+								/>
+							</div>
 						</div>
-					</div>
-					{/* FOOTER */}
-					<div className="container mt-5 flex justify-between py-5">
-						<Link to="/">
-							<Icon
-								name={theme === 'dark' ? 'epic-logo' : 'epic-logo-light'}
-								className="h-10 w-10"
-							/>
-						</Link>
-						<ThemeSwitch userPreference={data.requestInfo.userPrefs.theme} />
 					</div>
 				</div>
 			</div>
