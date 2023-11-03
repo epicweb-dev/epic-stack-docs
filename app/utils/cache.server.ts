@@ -19,7 +19,16 @@ import { cachifiedTimingReporter, type Timings } from './timing.server.ts'
 const CACHE_DATABASE_PATH = process.env.CACHE_DATABASE_PATH
 
 const cacheDb = remember('cacheDb', createDatabase)
-
+cacheDb.function('regexp', (regex, text) => {
+	try {
+		if (typeof text !== 'string') throw new Error('Invalid text')
+		if (typeof regex !== 'string') throw new Error('Invalid regex')
+		return new RegExp(regex, 'i').test(text) ? 1 : 0
+	} catch (e) {
+		console.error(e)
+		return 0 // Return 0 in case of an invalid regex
+	}
+})
 function createDatabase(tryAgain = true): Database.Database {
 	const db = new Database(CACHE_DATABASE_PATH)
 	const { currentIsPrimary } = getInstanceInfoSync()
@@ -133,6 +142,22 @@ export const cache: CachifiedCache = {
 	},
 }
 
+export async function findAndDeleteByKey({
+	key,
+	cache,
+	limit = 100,
+}: {
+	key: string
+	cache: CachifiedCache
+	limit?: number
+}) {
+	const keysToDelete = await searchCacheKeys(key, limit)
+	for (const key of keysToDelete.sqlite) {
+		cache.delete(key)
+	}
+	return { deleted: keysToDelete.sqlite.length, keys: keysToDelete.sqlite }
+}
+
 export async function getAllCacheKeys(limit: number) {
 	return {
 		sqlite: cacheDb
@@ -144,12 +169,15 @@ export async function getAllCacheKeys(limit: number) {
 }
 
 export async function searchCacheKeys(search: string, limit: number) {
+	const sanitizedSearch = search.replace(/"/g, '')
+	const searchRegex = new RegExp(sanitizedSearch)
+	console.log({ sanitizedSearch, searchRegex })
 	return {
 		sqlite: cacheDb
-			.prepare('SELECT key FROM cache WHERE key LIKE ? LIMIT ?')
-			.all(`%${search}%`, limit)
+			.prepare(`SELECT key FROM cache WHERE key REGEXP ? LIMIT ?`)
+			.all(sanitizedSearch, limit)
 			.map(row => (row as { key: string }).key),
-		lru: [...lru.keys()].filter(key => key.includes(search)),
+		lru: [...lru.keys()].filter(key => searchRegex.test(key)),
 	}
 }
 

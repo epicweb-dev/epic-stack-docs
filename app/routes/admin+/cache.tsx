@@ -11,18 +11,22 @@ import {
 import { Field } from '#app/components/forms.tsx'
 import { Spacer } from '#app/components/spacer.tsx'
 import { Button } from '#app/components/ui/button.tsx'
+import { getUserId } from '#app/utils/auth.server.ts'
 import {
 	cache,
+	findAndDeleteByKey,
 	getAllCacheKeys,
 	lruCache,
 	searchCacheKeys,
 } from '#app/utils/cache.server.ts'
+import { prisma } from '#app/utils/db.server.ts'
 import {
 	ensureInstance,
 	getAllInstances,
 	getInstanceInfo,
 } from '#app/utils/litefs.server.ts'
 import {
+	invariant,
 	invariantResponse,
 	useDebounce,
 	useDoubleCheck,
@@ -58,7 +62,36 @@ export async function loader({ request }: DataFunctionArgs) {
 	return json({ cacheKeys, instance, instances, currentInstanceInfo })
 }
 
-export async function action({ request }: DataFunctionArgs) {
+export const handleDeleteRequest = async (request: Request) => {
+	const formData = await request.formData()
+	const query = formData.get('query')
+	invariant(typeof query === 'string', 'cacheKeys must be a string')
+
+	const userId = await getUserId(request)
+	let user
+	let apiKey = formData.get('apiKey')
+
+	if (userId) {
+		user = await prisma.user.findUnique({
+			where: { id: userId },
+			select: { roles: true },
+		})
+	}
+
+	const isAdmin = user?.roles?.some(role => role.name === 'admin')
+	const isValidApiKey = apiKey === process.env.API_KEY
+
+	if (!isAdmin && !isValidApiKey) {
+		return json({ message: 'Not authorized' }, { status: 403 })
+	}
+
+	const { deleted, keys } = await findAndDeleteByKey({ cache, key: query })
+
+	return json({ deleted, keys, message: 'success' } as const, {
+		status: 200,
+	})
+}
+const handlePostRequest = async (request: Request) => {
 	await requireUserWithRole(request, 'admin')
 	const formData = await request.formData()
 	const key = formData.get('cacheKey')
@@ -85,6 +118,20 @@ export async function action({ request }: DataFunctionArgs) {
 		}
 	}
 	return json({ success: true })
+}
+
+export async function action({ request }: DataFunctionArgs) {
+	switch (request.method) {
+		case 'POST': {
+			return handlePostRequest(request)
+		}
+		case 'DELETE': {
+			return handleDeleteRequest(request)
+		}
+		default: {
+			throw new Error(`Unsupported method: ${request.method}`)
+		}
+	}
 }
 
 export default function CacheAdminRoute() {
