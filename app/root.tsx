@@ -79,8 +79,8 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
 	return [
-		{ title: data ? 'Epic Notes' : 'Error | Epic Notes' },
-		{ name: 'description', content: `Your own captain's log` },
+		{ title: data ? 'Epic Stack Docs' : 'Error | Epic Web Docs' },
+		{ name: 'description', content: `The docs for the most epic of web` },
 	]
 }
 
@@ -196,7 +196,7 @@ function Document({
 	env?: Record<string, string>
 }) {
 	return (
-		<html lang="en" className={`${theme} h-full overflow-x-hidden`}>
+		<html lang="en" className={`${theme}  overflow-x-hidden`}>
 			<head>
 				<ClientHintCheck nonce={nonce} />
 				<Meta />
@@ -227,19 +227,21 @@ function App() {
 
 	return (
 		<Document nonce={nonce} theme={theme} env={data.ENV}>
-			<div className="container px-1 md:px-3">
+			<div className="w-full px-1 md:container md:px-3">
 				<div className="flex h-screen flex-col justify-between">
 					<div className="relative flex">
 						<Menu />
-						<div className="mt-20 h-full flex-1 md:mt-0">
+						<div className="h-full flex-1 pt-20 md:mt-0">
 							<Outlet />
 						</div>
 					</div>
 					{/* FOOTER */}
-					<div className="container flex justify-between pb-5">
+					<div className="container mt-5 flex justify-between py-5">
 						<Link to="/">
-							<div className="font-light">epic</div>
-							<div className="font-bold">notes</div>
+							<Icon
+								name={theme === 'dark' ? 'epic-logo' : 'epic-logo-light'}
+								className="h-10 w-10"
+							/>
 						</Link>
 						<ThemeSwitch userPreference={data.requestInfo.userPrefs.theme} />
 					</div>

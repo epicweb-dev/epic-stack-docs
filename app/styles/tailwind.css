@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+	.prose pre {
+		@apply max-w-full overflow-x-auto;
+		white-space: pre-wrap;
+		word-wrap: break-word;
+	}
+}
+
 @layer base {
 	:root {
 		--font-sans: Nunito Sans, Nunito Sans Fallback;

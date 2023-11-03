@@ -24,9 +24,12 @@ export default function TopicPage() {
 
 	return (
 		<div className="container pt-3">
-			<h1 className="pb-5 text-6xl font-bold">{frontmatter.title}</h1>
-			<div className="prose prose-light dark:prose-dark break-words">
-				<Component />
+			<h2 className="pb-5 text-6xl font-bold">{frontmatter.title}</h2>
+			<h3 className="pb-5 text-xl font-thin">{frontmatter.description}</h3>
+			<div className="max-w-4xl">
+				<div className="prose sm:prose-lg xl:prose-2xl prose-light dark:prose-dark">
+					<Component />
+				</div>
 			</div>
 		</div>
 	)

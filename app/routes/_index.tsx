@@ -16,13 +16,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function Index() {
 	const data = useLoaderData<typeof loader>()
-	const { code, frontmatter } = data
+	const { code } = data
 	const Component = useMdxComponent(code)
 	return (
 		<div className="container pt-3">
-			<h1 className="text-6xl font-bold">{frontmatter.title}</h1>
-			<div className="prose prose-light dark:prose-dark break-words">
-				<Component />
+			<div className="max-w-4xl">
+				<div className="prose sm:prose-lg xl:prose-2xl prose-light dark:prose-dark">
+					<Component />
+				</div>
 			</div>
 		</div>
 	)
