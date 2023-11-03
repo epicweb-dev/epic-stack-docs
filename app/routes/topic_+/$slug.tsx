@@ -24,24 +24,26 @@ export default function TopicPage() {
 	const Component = useMdxComponent(code)
 
 	return (
-		<div className="container relative pt-3">
-			<h2 className="pb-5 text-6xl font-bold">{frontmatter.title}</h2>
+		<div className="container pt-3">
+			<h2 className="pb-5 text-6xl font-bold lg:text-8xl">
+				{frontmatter.title}
+			</h2>
 			<h3 className="pb-5 text-xl font-thin">{frontmatter.description}</h3>
 			<div className="max-w-4xl">
-				<div className="prose sm:prose-lg xl:prose-2xl prose-light dark:prose-dark">
+				<div className="prose sm:prose-lg xl:prose-2xl dark:prose-invert relative">
 					<Component />
+					<a
+						target="_blank"
+						className="text-sm text-gray-400"
+						href={`https://github.com/epicweb-dev/epic-stack-docs/tree/main/content/docs/${slug}`}
+						rel="noreferrer"
+					>
+						<p className="absolute -bottom-9 right-0">
+							Edit this page on <Icon name="github-logo" />
+						</p>
+					</a>
 				</div>
 			</div>
-			<a
-				target="_blank"
-				className="text-gray-400"
-				href={`https://github.com/epicweb-dev/epic-stack-docs/tree/main/content/docs/${slug}`}
-				rel="noreferrer"
-			>
-				<p className="absolute bottom-0 right-10">
-					Edit this page on <Icon name="github-logo" />
-				</p>
-			</a>
 		</div>
 	)
 }

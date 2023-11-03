@@ -22,13 +22,13 @@ const CategoryLinks = ({
 		<>
 			{Object.entries(categories).map(([category, subcategories]) => {
 				return (
-					<div key={category}>
-						<h4 className="text-1xl">{category.split('.')[0]}</h4>
+					<div key={category} className="pb-4">
+						<h4 className="text-1xl py-2">{category.split('.')[0]}</h4>
 						<div className="flex flex-col">
 							{subcategories.map(subcategory => {
 								return (
 									<div
-										className=" border-l border-l-gray-300 pl-2 font-thin hover:border-l-gray-500 hover:font-semibold"
+										className=" border-l border-l-gray-300 p-0.5 pl-2 font-thin hover:border-l-gray-500 hover:font-semibold"
 										key={subcategory}
 									>
 										<Link
