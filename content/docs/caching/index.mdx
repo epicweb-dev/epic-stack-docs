@@ -1,6 +1,6 @@
 ---
-title: Caching in the Epic Stack
-date: 2023-11-05
+title: Caching
+date: 2023-11-02
 description: How caching with SQLite and LRU is utilized in the Epic Stack to optimize performance.
 categories:
   - performance
@@ -12,9 +12,6 @@ meta:
     - sqlite
     - performance
 ---
-
-# Caching
-
 The Epic Stack comes with caching utilities and a management dashboard that allows you to view and clear your cache. There are two caches built into the Epic Stack:
 
 - **SQLite**: This is a separate database from the main application database. It's managed by LiteFS so the data is replicated across all instances of your app. This can be used for long-lived cached values.
