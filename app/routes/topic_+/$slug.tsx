@@ -25,10 +25,10 @@ export default function TopicPage() {
 
 	return (
 		<div className="container pt-3">
-			<h2 className="text-xl font-bold md:text-5xl lg:text-8xl">
+			<h2 className="pb-2 text-xl font-bold md:text-3xl xl:text-5xl">
 				{frontmatter.title}
 			</h2>
-			<h3 className="pb-5 text-sm font-thin md:text-xl">
+			<h3 className="pb-5 text-sm font-thin md:text-xl xl:text-2xl">
 				{frontmatter.description}
 			</h3>
 			<div className="max-w-4xl">
