@@ -129,7 +129,7 @@ app.use(
 				].filter(Boolean),
 				'font-src': ["'self'"],
 				'frame-src': ["'self'"],
-				'img-src': ["'self'", 'data:'],
+				'img-src': ["'self'", 'data:', 'https://*.s3.amazonaws.com'],
 				'script-src': [
 					"'strict-dynamic'",
 					"'unsafe-eval'",
