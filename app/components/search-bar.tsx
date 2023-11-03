@@ -1,6 +1,6 @@
 import { Form, useSearchParams, useSubmit } from '@remix-run/react'
 import { useId } from 'react'
-import { useDebounce, useIsPending } from '#app/utils/misc.tsx'
+import { useDebounce } from '#app/utils/misc.tsx'
 import { Input } from './ui/input.tsx'
 import { Label } from './ui/label.tsx'
 
@@ -16,10 +16,11 @@ export function SearchBar({
 	const id = useId()
 	const [searchParams] = useSearchParams()
 	const submit = useSubmit()
-	const isSubmitting = useIsPending({
-		formMethod: 'GET',
-		formAction: '/topic',
-	})
+	// TODO: use the pending state to show a spinner
+	// const isSubmitting = useIsPending({
+	// 	formMethod: 'GET',
+	// 	formAction: '/topic',
+	// })
 
 	const handleFormChange = useDebounce((form: HTMLFormElement) => {
 		submit(form)
