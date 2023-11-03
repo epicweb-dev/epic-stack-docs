@@ -231,10 +231,10 @@ function App() {
 				<div className="flex h-screen flex-col justify-between">
 					<div className="relative flex">
 						<Menu />
-						<div className="h-full flex-1 pt-20 md:mt-0">
+						<div className="flex h-full w-full flex-col justify-between pt-20 md:mt-0">
 							<Outlet />
 							{/* FOOTER */}
-							<div className="container mt-5 flex justify-between py-5">
+							<div className="mt-5 flex justify-between py-5">
 								<Link to="/" aria-label="home">
 									<Icon
 										name={theme === 'dark' ? 'epic-logo' : 'epic-logo-light'}
