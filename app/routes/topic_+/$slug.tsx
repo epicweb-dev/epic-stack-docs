@@ -36,7 +36,7 @@ export default function TopicPage() {
 					<Component />
 					<a
 						target="_blank"
-						className="text-sm text-gray-400"
+						className="text-sm text-gray-500 dark:text-gray-400"
 						href={`https://github.com/epicweb-dev/epic-stack-docs/tree/main/content/docs/${slug}`}
 						rel="noreferrer"
 					>

@@ -235,13 +235,13 @@ function App() {
 							<Outlet />
 							{/* FOOTER */}
 							<div className="container mt-5 flex justify-between py-5">
-								<Link to="/">
+								<Link to="/" aria-label="home">
 									<Icon
 										name={theme === 'dark' ? 'epic-logo' : 'epic-logo-light'}
 										className="h-10 w-10"
 									/>
 								</Link>
-								<span className="text-gray-400">
+								<span className="text-gray-500 dark:text-gray-400">
 									Copyright © 2023 Kent C Dodds
 								</span>
 								<ThemeSwitch

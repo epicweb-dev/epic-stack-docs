@@ -90,7 +90,7 @@ export default function Menu() {
 			<div className="absolute left-0 right-0 top-0 flex w-[100vw] justify-between p-4 md:hidden">
 				<Dialog>
 					<DialogTrigger asChild>
-						<button>
+						<button aria-label="nav menu expand">
 							<Icon size="xl" name="hamburger-menu" />
 						</button>
 					</DialogTrigger>
