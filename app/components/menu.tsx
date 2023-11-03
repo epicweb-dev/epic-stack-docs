@@ -64,6 +64,9 @@ export default function Menu() {
 							className="h-32 w-32"
 						/>
 					</Link>
+					<div className="w-full px-2 pt-2">
+						<SearchBar status="idle" />
+					</div>
 					<div className="flex flex-col gap-2 overflow-scroll p-2">
 						<Link
 							to="/topic/getting-started"
@@ -77,7 +80,6 @@ export default function Menu() {
 						>
 							Getting Started
 						</Link>
-						<SearchBar status="idle" />
 						<h3 className="py-2 text-2xl font-semibold">Topics</h3>
 						<div className="flex flex-col gap-1">
 							<CategoryLinks categories={staticCategories} />
