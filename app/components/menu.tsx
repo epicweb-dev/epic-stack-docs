@@ -70,15 +70,31 @@ export default function Menu() {
 					<div className="flex flex-col gap-2 overflow-scroll p-2">
 						<Link
 							to="/topic/getting-started"
-							className={`my-2 rounded-sm md:text-base ${
-								theme === 'light' ? 'bg-[#6A23FF]' : 'bg-[#D6C5FF]'
-							} py-2 text-center text-2xl font-semibold text-primary-foreground ${
+							className={`mt-2 rounded-sm border md:text-base ${
 								theme === 'light'
-									? 'hover:bg-[#6923ffd8]'
-									: 'hover:bg-[#e0d3ff]'
+									? 'border-[#6A23FF] bg-[#6A23FF]'
+									: 'border-[#D6C5FF] bg-[#D6C5FF]'
+							} py-2 text-center font-semibold text-primary-foreground ${
+								theme === 'light'
+									? 'hover:border-[#6923ffd8] hover:bg-[#6923ffd8]'
+									: 'hover:border-[#e0d3ff] hover:bg-[#e0d3ff]'
 							}`}
 						>
 							Getting Started
+						</Link>
+						<Link
+							to="/decision/"
+							className={` my-2 rounded-sm border ${
+								theme === 'light'
+									? 'border-[#6A23FF] text-[#6A23FF]'
+									: 'border-[#D6C5FF] text-[#D6C5FF]'
+							} py-2 text-center font-semibold text-primary-foreground ${
+								theme === 'light'
+									? 'hover:border-[#6923ffd8] hover:text-[#6923ffd8]'
+									: 'hover:border-[#e0d3ff] hover:text-[#e0d3ff] '
+							}`}
+						>
+							Decisions
 						</Link>
 						<h3 className="py-2 text-2xl font-semibold">Topics</h3>
 						<div className="flex flex-col gap-1">

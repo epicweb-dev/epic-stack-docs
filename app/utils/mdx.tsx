@@ -7,11 +7,43 @@ import { type GitHubFile, compileMdx } from './compile-mdx.server.ts'
 import { AnchorOrLink } from './misc.tsx'
 import { type Timings } from './timing.server.ts'
 
-export type MdxPage = {
+export type Frontmatter<ExtraFields extends Record<string, any> = {}> = {
+	title: string
+	description: string
+	date: string
+	meta: {
+		keywords?: Array<string>
+		[key: string]: string | Array<string> | undefined
+	}
+	categories?: Array<string>
+} & ExtraFields
+
+export type DocFrontmatter = Frontmatter<{
+	archived: boolean
+	draft: boolean
+	unlisted: boolean
+
+	// Post meta
+	bannerBlurDataUrl?: string
+	bannerCloudinaryId?: string
+	bannerCredit?: string
+	bannerAlt?: string
+	bannerTitle?: string
+	socialImageTitle?: string
+	socialImagePreTitle?: string
+	translations?: Array<{
+		language: string
+		link: string
+		author?: {
+			name: string
+			link?: string
+		}
+	}>
+}>
+export type MdxPage<FrontmatterShape extends Frontmatter = DocFrontmatter> = {
 	code: string
 	slug: string
 	editLink: string
-	// readTime?: ReturnType<typeof calculateReadingTime>
 	dateDisplay?: string
 
 	/**
@@ -21,36 +53,7 @@ export type MdxPage = {
 	 * the app or build. So we're going to force you to handle situations when
 	 * these values are missing to avoid runtime errors.
 	 */
-	frontmatter: {
-		archived: boolean
-		draft: boolean
-		unlisted: boolean
-		title: string
-		description: string
-		meta: {
-			keywords?: Array<string>
-			[key: string]: string | Array<string> | undefined
-		}
-
-		// Post meta
-		categories?: Array<string>
-		date?: string
-		bannerBlurDataUrl?: string
-		bannerCloudinaryId?: string
-		bannerCredit?: string
-		bannerAlt?: string
-		bannerTitle?: string
-		socialImageTitle?: string
-		socialImagePreTitle?: string
-		translations?: Array<{
-			language: string
-			link: string
-			author?: {
-				name: string
-				link?: string
-			}
-		}>
-	}
+	frontmatter: FrontmatterShape
 }
 
 type CachifiedOptions = {
@@ -67,7 +70,9 @@ const checkCompiledValue = (value: unknown) =>
 const defaultTTL = 1000 * 60 * 60 * 24 * 14
 const defaultStaleWhileRevalidate = 1000 * 60 * 60 * 24 * 365 * 100
 
-export async function getMdxPage(
+export async function getMdxPage<
+	FrontmatterShape extends Frontmatter = MdxPage['frontmatter'],
+>(
 	{
 		contentDir,
 		slug,
@@ -76,7 +81,7 @@ export async function getMdxPage(
 		slug: string
 	},
 	options: CachifiedOptions,
-): Promise<MdxPage | null> {
+): Promise<MdxPage<FrontmatterShape> | null> {
 	const { forceFresh, ttl = defaultTTL, timings } = options
 	const key = `mdx-page:${contentDir}:${slug}:compiled`
 	const page = await cachified({
@@ -88,7 +93,7 @@ export async function getMdxPage(
 		forceFresh,
 		getFreshValue: async () => {
 			const pageFiles = await downloadMdxFilesCached(contentDir, slug, options)
-			const compiledPage = await compileMdxCached({
+			const compiledPage = await compileMdxCached<FrontmatterShape>({
 				contentDir,
 				slug,
 				...pageFiles,
@@ -110,7 +115,9 @@ export async function getMdxPage(
 	return page
 }
 
-async function compileMdxCached({
+async function compileMdxCached<
+	FrontmatterShape extends Record<string, any> = MdxPage['frontmatter'],
+>({
 	contentDir,
 	slug,
 	entry,
@@ -132,7 +139,7 @@ async function compileMdxCached({
 		key,
 		checkValue: checkCompiledValue,
 		getFreshValue: async () => {
-			const compiledPage = await compileMdx<MdxPage['frontmatter']>(slug, files)
+			const compiledPage = await compileMdx<FrontmatterShape>(slug, files)
 			if (compiledPage) {
 				//TODO: maybe need to uncomment this, but it's not working right now
 				// if (
