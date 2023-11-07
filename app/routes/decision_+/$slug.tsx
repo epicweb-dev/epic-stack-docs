@@ -1,6 +1,5 @@
 import { json, type LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
-import { useEffect, useState } from 'react'
 import { Icon } from '#app/components/ui/icon.tsx'
 import {
 	type Frontmatter,
@@ -8,12 +7,17 @@ import {
 	useMdxComponent,
 } from '#app/utils/mdx.tsx'
 
+export type DecisionFrontmatter = Frontmatter<{
+	status: string
+	decisionNumber: number
+}>
+
 export async function loader({ request, params }: LoaderFunctionArgs) {
 	if (!params.slug) {
 		throw new Error('params.slug is not defined')
 	}
 	const timings = {}
-	const page = await getMdxPage<Frontmatter<{ status: string }>>(
+	const page = await getMdxPage<Frontmatter<DecisionFrontmatter>>(
 		{ contentDir: 'decisions', slug: params.slug },
 		{ request, timings },
 	)
@@ -23,26 +27,30 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 	return json(page)
 }
 
+const SupersededBy = ({ status }: { status: string }) => {
+	const superSededslug = status.split(',')[1].trim()
+	return (
+		<div className="my-1 w-full rounded-sm bg-red-300 p-5">
+			<p className="text-center text-red-900">
+				This decision has been superseded by{' '}
+				<Link className="underline" to={`/decision/${superSededslug}`}>
+					{superSededslug}
+				</Link>
+			</p>
+		</div>
+	)
+}
+
 export default function DecisionPage() {
 	const data = useLoaderData<typeof loader>()
-	const [supersededSlug, setSupersededSlug] = useState<string | null>()
 	const { code, frontmatter, slug } = data
+	const superSededslug = frontmatter.status?.split(',')[1]?.trim()
 	const Component = useMdxComponent(code)
-	useEffect(() => {
-		if ((frontmatter.status as string).includes('superseded')) {
-			setSupersededSlug((frontmatter.status as string).split(',')[1].trim())
-		}
-	}, [frontmatter.status])
 
 	return (
-		<div className="container pt-3">
-			{supersededSlug && (
-				<div className="absolute left-0 right-0 top-0 h-[5rem] bg-red-300">
-					<p className="text-center text-red-900">
-						This decision has been superseded by{' '}
-						<Link to={`/decisions/${supersededSlug}`}>{supersededSlug}</Link>
-					</p>
-				</div>
+		<div className="container relative pt-3">
+			{frontmatter.status.startsWith('superseded') && (
+				<SupersededBy status={frontmatter.status} />
 			)}
 			<h2 className="pb-2 text-xl font-bold md:text-3xl xl:text-5xl">
 				{frontmatter.title}
@@ -50,18 +58,14 @@ export default function DecisionPage() {
 			<h3 className="pb-5 text-sm font-thin md:text-xl xl:text-2xl">
 				{frontmatter.description}
 			</h3>
-			{/* TODO: add status to type definition */}
 
 			<h4>
-				status:
-				{supersededSlug ? (
-					<>
-						<Link to={`/decisions/${supersededSlug}`}>
-							Superseded by: {supersededSlug}
-						</Link>
-					</>
+				status:{' '}
+				{frontmatter.status.startsWith('superseded') ? (
+					<Link className="underline" to={`/decision/${superSededslug}`}>
+						{frontmatter.status}
+					</Link>
 				) : (
-					// @ts-ignore
 					frontmatter.status
 				)}
 			</h4>
