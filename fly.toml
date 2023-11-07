@@ -1,4 +1,4 @@
-app = "epic-stack-docs-26ef"
+app = "epic-stack-docs"
 primary_region = "sjc"
 kill_signal = "SIGINT"
 kill_timeout = 5
