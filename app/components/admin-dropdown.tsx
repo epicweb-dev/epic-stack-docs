@@ -57,11 +57,7 @@ export const AdminDropdown = ({ user }: { user: any }) => {
 						<DropdownMenuItem>
 							<fetcher.Form action="/admin/cache" method="DELETE">
 								<button className="flex h-full w-full gap-0.5">
-									<input
-										type="hidden"
-										name="query"
-										value="docs:.*:downloaded"
-									/>
+									<input type="hidden" name="query" value="decisions:.*:.*" />
 									<DatabaseZapIcon className="mr-2 h-4 w-4" />
 									<span>Refresh MDX Cache</span>
 								</button>
