@@ -70,29 +70,13 @@ export default function Menu() {
 					<div className="flex flex-col gap-2 overflow-scroll p-2">
 						<Link
 							to="/topic/getting-started"
-							className={`mt-2 rounded-sm border md:text-base ${
-								theme === 'light'
-									? 'border-[#6A23FF] bg-[#6A23FF]'
-									: 'border-[#D6C5FF] bg-[#D6C5FF]'
-							} py-2 text-center font-semibold text-primary-foreground ${
-								theme === 'light'
-									? 'hover:border-[#6923ffd8] hover:bg-[#6923ffd8]'
-									: 'hover:border-[#e0d3ff] hover:bg-[#e0d3ff]'
-							}`}
+							className="mt-2 rounded-sm border border-[#6A23FF] bg-[#6A23FF] py-2 text-center font-semibold text-primary-foreground hover:border-[#6923ffd8] hover:bg-[#6923ffd8] dark:border-[#D6C5FF] dark:bg-[#D6C5FF] dark:hover:border-[#e0d3ff] dark:hover:bg-[#e0d3ff] md:text-base"
 						>
 							Getting Started
 						</Link>
 						<Link
 							to="/decision/"
-							className={` my-2 rounded-sm border ${
-								theme === 'light'
-									? 'border-[#6A23FF] text-[#6A23FF]'
-									: 'border-[#D6C5FF] text-[#D6C5FF]'
-							} py-2 text-center font-semibold text-primary-foreground ${
-								theme === 'light'
-									? 'hover:border-[#6923ffd8] hover:text-[#6923ffd8]'
-									: 'hover:border-[#e0d3ff] hover:text-[#e0d3ff] '
-							}`}
+							className="my-2 rounded-sm border border-[#6A23FF] py-2 text-center font-semibold text-[#6A23FF] hover:border-[#6923ffd8] hover:text-[#6923ffd8] dark:border-[#D6C5FF] dark:text-[#D6C5FF] dark:hover:border-[#e0d3ff] dark:hover:text-[#e0d3ff]"
 						>
 							Decisions
 						</Link>
