@@ -1,54 +1,60 @@
-<div align="center">
-  <h1 align="center"><a href="https://www.epicweb.dev/epic-stack">The Epic Stack 🚀</a></h1>
-  <strong align="center">
-    Ditch analysis paralysis and start shipping Epic Web apps.
-  </strong>
-  <p>
-    This is an opinionated project starter and reference that allows teams to
-    ship their ideas to production faster and on a more stable foundation based
-    on the experience of <a href="https://kentcdodds.com">Kent C. Dodds</a> and
-    <a href="https://github.com/epicweb-dev/epic-stack/graphs/contributors">contributors</a>.
-  </p>
-</div>
+# Epic Stack Documentation
+
+This is the documentation site for the [Epic Stack](https://github.com/epicweb-dev/epic-stack) starter template. 
+
+## About the Epic Stack
+
+The Epic Stack is an opinionated web app starter template created by [Kent C. Dodds](https://kentcdodds.com) to help teams ship production-ready apps faster.
+
+Key features:
+
+- Modern tech stack with React, TypeScript, Testing Library, ESLint, etc.
+- Opinionated structure and patterns
+- Zero-config setup with Create Epic App
+
+## Documentation
+
+This site contains documentation on using and customizing the Epic Stack. 
+
+Some key sections:
+
+- Getting started
+- Project structure
+- Tooling and scripts
+- Testing and quality
+- Deployment
+- FAQ
+
+## Contributing
+
+Please contribute to the docs by opening PRs! The docs site is hosted on [Fly](https://fly.io) and deployments are automated.
+
+Start by forking this repo
 
 ```sh
-npx create-epic-app@latest
+# gihub cli
+gh repo fork https://github.com/epicweb-dev/epic-stack-docs.git
 ```
 
-[![The Epic Stack](https://github-production-user-asset-6210df.s3.amazonaws.com/1500684/246885449-1b00286c-aa3d-44b2-9ef2-04f694eb3592.png)](https://www.epicweb.dev/epic-stack)
+Make a copy of the .env file
 
-[The Epic Stack](https://www.epicweb.dev/epic-stack)
+```sh
+cp ./env.example .env
+```
+Install dependecies
+```sh
+npm install
+```
 
-<hr />
+Create a branch on your fork
+```
+git checkout -b pr/<issue-your-fixing>
+```
 
-## Watch Kent's Introduction to The Epic Stack
+Once your finsihed submit your PR following the template and...
 
-[![Epic Stack Talk slide showing Flynn Rider with knives, the text "I've been around and I've got opinions" and Kent speaking in the corner](https://github-production-user-asset-6210df.s3.amazonaws.com/1500684/277818553-47158e68-4efc-43ae-a477-9d1670d4217d.png)](https://www.epicweb.dev/talks/the-epic-stack)
+THANK YOU!
 
-["The Epic Stack" by Kent C. Dodds](https://www.epicweb.dev/talks/the-epic-stack)
+## About this README
 
-## Docs
-
-[Read the docs](https://github.com/epicweb-dev/epic-stack/blob/main/docs)
-(please 🙏).
-
-## Support
-
-- 🆘 Join the
-  [discussion on GitHub](https://github.com/epicweb-dev/epic-stack/discussions)
-  and the [KCD Community on Discord](https://kcd.im/discord).
-- 💡 Create an
-  [idea discussion](https://github.com/epicweb-dev/epic-stack/discussions/new?category=ideas)
-  for suggestions.
-- 🐛 Open a [GitHub issue](https://github.com/epicweb-dev/epic-stack/issues) to
-  report a bug.
-
-## Branding
-
-Want to talk about the Epic Stack in a blog post or talk? Great! Here are some
-assets you can use in your material:
-[EpicWeb.dev/brand](https://epicweb.dev/brand)
-
-## Thanks
-
-You rock 🪨
+This README is for the **documentation site** only. For the Epic Stack template README, see [epicweb-dev/epic-stack](https://github.com/epicweb-dev/epic-stack).
