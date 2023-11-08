@@ -24,7 +24,7 @@ export default function Index() {
 				{frontmatter.title}
 			</h2>
 			<div className="max-w-4xl">
-				<div className="prose sm:prose-lg xl:prose-2xl prose-light dark:prose-dark">
+				<div className="prose-light prose dark:prose-invert sm:prose-lg xl:prose-2xl">
 					<Component />
 				</div>
 			</div>
